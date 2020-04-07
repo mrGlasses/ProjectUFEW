@@ -16,5 +16,6 @@ I highly recommend using some linux dist. for it.
 
 Now it's ready to go, have fun.
 
-(I use and recommend procedural sql use for safety)
+(I use and recommend procedural sql use for safety, but Amelia is gentle, so, open the file and discover another options)
+
 <s>I hope you know what a webservice is</s>
