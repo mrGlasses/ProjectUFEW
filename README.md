@@ -19,3 +19,9 @@ Now it's ready to go, have fun.
 (I use and recommend procedural sql use for safety, but Amelia is gentle, so, open the file and discover another options)
 
 <s>I hope you know what a webservice is</s>
+
+
+
+______________________________________________________________________________
+##### IF YOU WANT TO SUPPORT THE PROJECT AND HAVE YOUR NAME IN IT WITHOUT CODING
+###### <s>I don't even drink coffee, but I accept rum</s> Note: more coffee, higher and bigger your name will be in the README session *wink*, your name will be up above all even with 1 coffee <s>unless someone gimme more coffee</s>.
