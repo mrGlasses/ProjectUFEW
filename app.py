@@ -52,12 +52,6 @@ def execSP(Aparam):
     content = jsonify(content)
     return content
 
-@app.route("/testeJson/")
-def teste():
-    content = amelia.ameliaGoOpenSql(conn, "select 8, name from test")
-    content = jsonify(content)
-    return content
-
 @app.route("/neh")
 def neh():
     return 'neh'
@@ -66,14 +60,9 @@ def neh():
 def openSPA(Aparam):
     return Aparam
 
-@app.route("/testeInsert/<insertClause>")
-def testeIn(insertClause):
-    conexao = amelia.baseConnect('0.0.0.0', 'root', 'root', 'test')
-    lcursor = conexao.cursor()
-    query = amelia.simpleSqlOpen(lcursor, "select " + insertClause)
-    conexao.commit()
-    content = jsonify(query)
-    return content
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
 
 
 
