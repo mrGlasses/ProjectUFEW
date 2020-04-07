@@ -18,19 +18,19 @@ if 'DB' in cnfer:
     conn.append(cnfer['DB']['pass'])
     conn.append(cnfer['DB']['db'])
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST', 'PUT'])
 def home():
     return "Up! Credits To Nickolas G."
 
-@app.route("/ver")
+@app.route("/ver", methods=['GET', 'POST', 'PUT'])
 def verN():
     return ver
 
-@app.route("/isConnected")
+@app.route("/isConnected", methods=['GET', 'POST', 'PUT'])
 def alive():
     return amelia.isAlive(conn)
 
-@app.route("/put/<Aparam>")
+@app.route("/put/<Aparam>", methods=['GET', 'POST', 'PUT'])
 def openSP(Aparam):
     lister = Aparam.split('@')
     Aproc = lister[0]
@@ -41,7 +41,7 @@ def openSP(Aparam):
     content = jsonify(content)
     return content
 
-@app.route("/do/<Aparam>")
+@app.route("/do/<Aparam>", methods=['GET', 'POST', 'PUT'])
 def execSP(Aparam):
     lister = Aparam.split('@')
     Aproc = lister[0]
@@ -52,11 +52,11 @@ def execSP(Aparam):
     content = jsonify(content)
     return content
 
-@app.route("/neh")
+@app.route("/neh", methods=['GET', 'POST', 'PUT'])
 def neh():
     return 'neh'
 
-@app.route("/putter/<Aparam>")
+@app.route("/putter/<Aparam>", methods=['GET', 'POST', 'PUT'])
 def openSPA(Aparam):
     return Aparam
 
