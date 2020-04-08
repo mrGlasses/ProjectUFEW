@@ -5,8 +5,13 @@ import re
 import amelia
 import configparser
 
+
+def AnsiPos(subStr, fullStr):
+    result = [pos for pos, char in enumerate(fullStr) if char == subStr]
+    return result
+
 #trueVer.bugFix.checkpoint.try
-ver = '0.1.2.5'
+ver = '0.1.2.4'
 
 conn = []
 cnfer = configparser.ConfigParser()
@@ -20,7 +25,7 @@ if 'DB' in cnfer:
 
 @app.route("/", methods=['GET', 'POST', 'PUT'])
 def home():
-    return "Up! Credits To Nickolas G."
+    return "Up!"
 
 @app.route("/ver", methods=['GET', 'POST', 'PUT'])
 def verN():
@@ -37,7 +42,7 @@ def openSP(Aparam):
     lister.pop(0)
     if len(lister) == 0:
         lister = ()
-    content = amelia.ameliaGoProcExec(conn, Aproc, lister)
+    content = amelia.ameliaGoProcOpen(conn, Aproc, lister)
     content = jsonify(content)
     return content
 
@@ -48,11 +53,19 @@ def execSP(Aparam):
     lister.pop(0)
     if len(lister) == 0:
         lister = ()
-    content = amelia.ameliaGoProcOpen(conn, Aproc, lister)
+    content = amelia.ameliaGoProcExec(conn, Aproc, lister)
+    if len(AnsiPos('err', content)) == 0:
+        content = 'ok'
     content = jsonify(content)
     return content
 
-@app.route("/neh", methods=['GET', 'POST', 'PUT'])
+@app.route("/testeJson/", methods=['GET', 'POST', 'PUT'])
+def teste():
+    content = amelia.ameliaGoOpenSql(conn, "select 8, name from test")
+    content = jsonify(content)
+    return content
+
+@app.route("/neh")
 def neh():
     return 'neh'
 
@@ -60,9 +73,15 @@ def neh():
 def openSPA(Aparam):
     return Aparam
 
+@app.route("/testeInsert/<insertClause>", methods=['GET', 'POST', 'PUT'])
+def testeIn(insertClause):
+    conexao = amelia.baseConnect('192.168.0.103', 'root', 'root', 'testNow')
+    lcursor = conexao.cursor()
+    query = amelia.simpleSqlExec(lcursor, "insert into test select " + insertClause)
+    conexao.commit()
+    content = jsonify(query)
+    return content
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
-
-
-
+    app.run(host="0.0.0.0", port=353)
