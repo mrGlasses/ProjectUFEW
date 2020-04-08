@@ -11,7 +11,7 @@ def AnsiPos(subStr, fullStr):
     return result
 
 #trueVer.bugFix.checkpoint.try
-ver = '0.1.2.4'
+ver = '0.1.2.6'
 
 conn = []
 cnfer = configparser.ConfigParser()
@@ -75,13 +75,13 @@ def openSPA(Aparam):
 
 @app.route("/testeInsert/<insertClause>", methods=['GET', 'POST', 'PUT'])
 def testeIn(insertClause):
-    conexao = amelia.baseConnect('192.168.0.103', 'root', 'root', 'testNow')
+    conexao = amelia.baseConnect('0.0.0.0', 'root', 'root', 'test')
     lcursor = conexao.cursor()
-    query = amelia.simpleSqlExec(lcursor, "insert into test select " + insertClause)
+    query = amelia.simpleSqlExec(lcursor, "select " + insertClause)
     conexao.commit()
     content = jsonify(query)
     return content
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=353)
+    app.run(host="0.0.0.0", port=5000)
