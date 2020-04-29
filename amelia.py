@@ -1,6 +1,6 @@
 ########################################################
 #           WELCOME TO AMELIA DATA ACCESS!             #
-#                ver. 1.0.1.0 - Cocada                 #
+#                ver. 2.0.0.0 - Brigadeiro             #
 #                                                      #
 #             -WHAT DOES THIS LIB DO?-                 #
 #    MAKE YOUR LIFE EASIER WITH SIMPLE CONNECTION      #
@@ -29,6 +29,13 @@
 #query = simpleSqlOpen(lcursor, "select * from test")  #
 #content = (query)                                     #
 #                                                      #
+#               ---- CHANGE LOG ----                   #
+#                                                      #
+# - 2.0.0.0 - Brigadeiro -                             #
+#   - BUGFIX - Add column names at the resultset       #
+#   - NEW FUNCION - Multi RecordSet embedded now       #
+#                                                      #
+# - 1.0.1.0 - Cocada - Amelia's birth                  #
 #                                                      #
 #              Created by RealMr_Glasses               #
 ########################################################
@@ -83,7 +90,22 @@ def simpleSqlOpen(Acursor, Atext):
     try:
         Acursor.execute(Atext)
         result = Acursor.fetchall()
-        return result
+
+        
+        listR = []
+        row_headers = [x[0] for x in Acursor.description]  #column names
+        #not multi recordset, maybe in version 2
+        for result in Acursor.stored_results():
+            #listR.append(result.fetchall())
+            result.fetchall()
+            for line in result:
+                listR.append(dict(zip(row_headers,line)))
+
+
+        #return result._rows #change here to listR to MultiRecordSet
+        return listR #Multi RecordSet? I don't know
+
+        #return result
     except BaseException as e:
         return 'Error: ' + str(e)
     
@@ -102,10 +124,15 @@ def simpleSqlProcOpen(Acursor, Aproc, Aparams):
     try:
         Acursor.callproc(Aproc, Aparams)
         listR = []
-        #not multi recordset, maybe in version 2
         for result in Acursor.stored_results():
-            listR.append(result.fetchall())
-        return result._rows #change here to listR to MultiRecordSet
+            row_headers = [x for x in result.column_names]  #column names
+            resultSet = result.fetchall()
+            dataSet = []
+            for line in resultSet:
+                dataSet.append(dict(zip(row_headers,line)))
+            listR.append(dataSet)
+
+        return listR #Multi RecordSet embedded
     except BaseException as e:
         return 'Error: ' + str(e)
 
