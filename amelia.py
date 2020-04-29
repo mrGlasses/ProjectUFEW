@@ -1,6 +1,6 @@
 ########################################################
 #           WELCOME TO AMELIA DATA ACCESS!             #
-#                ver. 2.0.0.0 - Brigadeiro             #
+#                ver. 2.1.0.0 - Brigadeiro             #
 #                                                      #
 #             -WHAT DOES THIS LIB DO?-                 #
 #    MAKE YOUR LIFE EASIER WITH SIMPLE CONNECTION      #
@@ -30,6 +30,9 @@
 #content = (query)                                     #
 #                                                      #
 #               ---- CHANGE LOG ----                   #
+#                                                      #
+# - 2.1.0.0 - Brigadeiro -                             #
+#   - BUGFIX - I forgot to update simpleSqlOpen        #
 #                                                      #
 # - 2.0.0.0 - Brigadeiro -                             #
 #   - BUGFIX - Add column names at the resultset       #
@@ -90,20 +93,17 @@ def simpleSqlOpen(Acursor, Atext):
     try:
         Acursor.execute(Atext)
         result = Acursor.fetchall()
-
         
         listR = []
-        row_headers = [x[0] for x in Acursor.description]  #column names
-        #not multi recordset, maybe in version 2
         for result in Acursor.stored_results():
-            #listR.append(result.fetchall())
-            result.fetchall()
-            for line in result:
-                listR.append(dict(zip(row_headers,line)))
+            row_headers = [x for x in result.column_names]  #column names
+            resultSet = result.fetchall()
+            dataSet = []
+            for line in resultSet:
+                dataSet.append(dict(zip(row_headers,line)))
+            listR.append(dataSet)
 
-
-        #return result._rows #change here to listR to MultiRecordSet
-        return listR #Multi RecordSet? I don't know
+        return listR #Multi RecordSet embedded
 
         #return result
     except BaseException as e:
